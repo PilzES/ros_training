@@ -1,0 +1,73 @@
+<?xml version="1.0" ?>
+
+<robot name="ur5" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  
+  <!-- First, create the first link "world" -->
+  <link name="world"/>
+  <joint name="world_to_table" type="fixed">
+    <parent link="world"/>
+    <child link="table"/>
+  </joint>
+
+  <!-- coloring from the table -->
+  <material name="grey">
+    <color rgba="0.75 0.75 0.75 1"/>
+  </material>
+
+  <!-- Table -->
+  <link name="table">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 -0.03"/>
+      <geometry>
+        <box size="0.6 1.2 0.05"/> 
+      </geometry>
+      <material name="grey"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 -0.45 -0.03"/>
+      <geometry>
+        <box size="0.6 1.2 0.05"/>
+      </geometry>
+    </collision>
+  </link>
+ <!-- END 3D Enviroment -->
+
+  <!-- Join Table -Robot -->
+  <joint name="table_joint" type="fixed">
+    <parent link="table"/>
+    <child link="base_link"/>
+  </joint>
+
+  <!-- ur5 Robot -->
+  <xacro:include filename="$(find ur_description)/urdf/ur5.urdf.xacro" />
+
+  <xacro:ur5_robot prefix="" joint_limited="true"
+  shoulder_pan_lower_limit="${-pi}" shoulder_pan_upper_limit="${pi}"
+  shoulder_lift_lower_limit="${-pi}" shoulder_lift_upper_limit="${pi}"
+  elbow_joint_lower_limit="${-pi}" elbow_joint_upper_limit="${pi}"
+  wrist_1_lower_limit="${-pi}" wrist_1_upper_limit="${pi}"
+  wrist_2_lower_limit="${-pi}" wrist_2_upper_limit="${pi}"
+  wrist_3_lower_limit="${-pi}" wrist_3_upper_limit="${pi}"
+  transmission_hw_interface="hardware_interface/PositionJointInterface"
+  />
+  
+  <!-- END ur5 Robot -->
+
+  <link name="ur5_tcp"/>
+  <!-- connect the added tcp and the eelink-->
+  <joint name="ur5_fixed_joint_tcp" type="fixed">
+    <origin xyz="0.05 0 0" rpy="0 ${pi/2} 0"/>
+    <parent link="ee_link"/>
+    <child link="ur5_tcp"/>
+  </joint>
+
+  <!-- add PG70 gripper -->
+  <xacro:include filename="$(find ur_pilz_tutorial)/urdf/pg70.urdf.xacro" />
+  <xacro:ur5_gripper gripper_name="ur5_gripper" parent="ee_link" />
+
+  <!-- add gripper brackets -->
+  <xacro:include filename="$(find ur_pilz_tutorial)/urdf/simple_gripper_brackets.urdf.xacro" />
+  <xacro:simple_gripper_brackets gripper_name="ur5_gripper" size_y="0.003"/>
+
+</robot>

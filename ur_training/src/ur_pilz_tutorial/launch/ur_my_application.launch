@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<launch>
+    <param name="robot_description" command="$(find xacro)/xacro '$(find ur_pilz_tutorial)/urdf/ur_my_first_application.xacro'"/>
+
+    <!-- from demo.launch Given the published joint states, publish tf for the robot links -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true" output="screen"/>
+  
+    <!-- Neede to move the Robot, used to publish the full current joint states -->
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+        <param name="/use_gui" value="false"/> 
+        <rosparam param="/source_list">[/move_group/fake_controller_joint_states]</rosparam>
+    </node>
+
+    <!-- launch move_group -->
+    <include file="$(find ur5_moveit_config)/launch/move_group.launch">
+        <arg name="limited" default="true"/>
+        <arg name="debug" default="false" />
+        <arg name="fake_execution" default="true"/> <!-- Needed true to use only RVIZ -->
+    </include>
+
+    <!-- MSAN loading cartesian limits to use linear planning -->
+    <!-- Important using the name space: 'robot description' -->
+    <arg name="robot_description" default="robot_description"/>
+    <group ns="$(arg robot_description)_planning">
+        <rosparam command="load" file="$(find ur5_moveit_config)/config/cartesian_limits.yaml"/>
+    </group>
+
+    <!-- Run Rviz and load the default config to see the state of the move_group node -->
+    <include file="$(find ur5_moveit_config)/launch/moveit_rviz.launch">
+        <arg name="config" value="true"/>
+        <arg name="debug" value="false"/>
+    </include>
+
+</launch>

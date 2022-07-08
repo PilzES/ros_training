@@ -1,0 +1,18 @@
+msanchez@pilz-zbook:~$ mkdir -p ~/ur_training/src
+msanchez@pilz-zbook:~$ cd ~/ur_training
+
+msanchez@pilz-zbook:~/ur_training$ source ~/ur_training/devel/setup.bash 
+msanchez@pilz-zbook:~/ur_training$ echo $ROS_PACKAGE_PATH
+
+
+msanchez@pilz-zbook:~/ur_training$ cd ~/ur_training/src/
+msanchez@pilz-zbook:~/ur_training/src$ catkin_create_pkg ur_pilz_tutorial
+
+msanchez@pilz-zbook:~/ur_training/src/ur_pilz_tutorial$ mkdir launch
+msanchez@pilz-zbook:~/ur_training/src/ur_pilz_tutorial$ cd launch/
+msanchez@pilz-zbook:~/ur_training/src/ur_pilz_tutorial/launch$ touch ur_my_application.launch
+msanchez@pilz-zbook:~/ur_training/src/ur_pilz_tutorial/launch$ cd ..
+msanchez@pilz-zbook:~/ur_training/src/ur_pilz_tutorial$ mkdir urdf
+msanchez@pilz-zbook:~/ur_training/src/ur_pilz_tutorial$ cd urdf/
+msanchez@pilz-zbook:~/ur_training/src/ur_pilz_tutorial/urdf$ touch ur_my_first_application.xacro
+

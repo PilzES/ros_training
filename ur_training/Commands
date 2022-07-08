@@ -1,0 +1,18 @@
+$ mkdir -p ~/ur_training/src
+$ cd ~/ur_training
+
+$ source ~/ur_training/devel/setup.bash 
+$ echo $ROS_PACKAGE_PATH
+
+
+$ cd ~/ur_training/src/
+$ catkin_create_pkg ur_pilz_tutorial
+
+$ mkdir launch
+$ cd launch/
+$ touch ur_my_application.launch
+$ cd ..
+$ mkdir urdf
+$ cd urdf/
+$ touch ur_my_first_application.xacro
+

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>pilz_testutils</name>
+  <version>0.7.2</version>
+  <description>This package contains testing utilities used by Pilz packages.</description>
+
+  <maintainer email="a.gutenkunst@pilz.de">Alexander Gutenkunst</maintainer>
+  <maintainer email="c.doehn@pilz.de">Christian Doehn</maintainer>
+  <maintainer email="c.henkel@pilz.de">Christian Henkel</maintainer>
+  <maintainer email="i.martini@pilz.de">Immanuel Martini</maintainer>
+  <maintainer email="r.feistenauer@pilz.de">Richard Feistenauer</maintainer>
+
+  <license>Apache 2.0</license>
+
+  <url type="website">https://wiki.ros.org/pilz_testutils</url>
+  <url type="bugtracker">https://github.com/PilzDE/pilz_common/issues</url>
+  <url type="repository">https://github.com/PilzDE/pilz_common</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>roscpp</build_depend>
+  <build_depend>pilz_utils</build_depend>
+  <build_depend>sensor_msgs</build_depend>
+
+  <test_depend>code_coverage</test_depend>
+  <test_depend>rostest</test_depend>
+</package>

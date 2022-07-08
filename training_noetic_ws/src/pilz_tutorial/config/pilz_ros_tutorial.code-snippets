@@ -1,0 +1,132 @@
+{
+	// This file is used by Visual studio to offer custom snippets via autocomplete. It should be placed at ~/.config/Code/user/snippets/file_name.code-snippets
+	// Place your global snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and 
+	// description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope 
+	// is left empty or omitted, the snippet gets applied to all languages. The prefix is what is 
+	// used to trigger the snippet and the body will be expanded and inserted. Possible variables are: 
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. 
+	// Placeholders with the same ids are connected.
+	// Example:
+	// "Print to console": {
+	// 	"scope": "javascript,typescript",
+	// 	"prefix": "log",
+	// 	"body": [
+	// 		"console.log('$1');",
+	// 		"$2"
+	// 	],
+	// 	"description": "Log output to console"
+	// }
+
+	
+	"1. XML header": {
+		"scope": "xml",
+		"prefix": "1 xml header",
+		"body": [
+			"<?xml version=\"1.0\" ?>",
+			"$0" 
+		],
+		"description": "XML file header"
+  }, 
+
+	"2. PRBT xacro import": {
+		"scope": "xml",
+		"prefix": "2 prbt xacro",
+		"body": [
+			"<robot name=\"prbt\" xmlns:xacro=\"http://www.ros.org/wiki/xacro\">",
+			"\t\t$0",
+			"</robot>"
+		],
+		"description": "XML file header"
+	}, 
+	"3. Add the robot": {
+		"scope": "xml",
+		"prefix": "3 prbt import",
+		"body": [
+			"<!-- macro definition of pilz lwa -->",
+			"<xacro:include filename=\"\\$(find prbt_support)/urdf/prbt_macro.xacro\" />",
+			
+			"<!-- instantiate the robot -->",
+			"<xacro:prbt prefix=\"prbt_\"/>",
+			"<!-- Add the tcp (tutorial 2) -->",
+			"<link name=\"prbt_tcp\"/>",
+			"<!-- connect the added tcp and the flange with a joint (tutorial 2)-->",
+			"<joint name=\"prbt_fixed_joint_tcp\" type=\"fixed\">",
+				"\t<origin rpy=\"0 0 0\" xyz=\"0 0 0.05\"/>",
+				"\t<parent link=\"prbt_flange\"/>",
+				"\t<child link=\"prbt_tcp\"/>",
+			"</joint>",
+			"$0",
+		],
+		"description": "XML file header"
+	},
+	
+
+	"4. Add Table": {
+		"scope": "xml",
+		"prefix": "4 table",
+		"body": [
+			"<!-- Add a table -->",
+		"<link name=\"table\">",
+		"\t<visual>",
+		"\t\t<origin rpy=\"0 0 0\" xyz=\"0 0 -0.03\"/>",
+		"\t\t<geometry>",
+		"\t\t\t<box size=\"0.6 1.2 0.05\"/>",
+		"\t\t</geometry>",
+		"\t\t<material name=\"grey\"/>",
+		"\t</visual>",
+		"</link>",
+		"",
+		"<joint name=\"table_joint\" type=\"fixed\">",
+		"\t\t<parent link=\"table\"/>",
+		"\t\t<child link=\"prbt_base_link\"/>",
+		"</joint>",
+		"$0"
+		],
+		"description": "Add a simple table in URDF"
+	}, 
+	
+
+	"5. Change Colors": {
+		"scope": "xml",
+		"prefix": "5 color",
+		"body": [
+		"<!-- coloring from the table -->",
+		"<material name=\"grey\">",
+			"\t<color rgba=\"0.75 0.75 0.75 1\"/>",
+		"</material>",
+		"<!-- coloring from the stl file -->",
+		"<material name=\"yellow\">",
+			"\t<color rgba=\"1 1 0 1\"/>",
+		"</material>",
+		"$0",
+		],
+		"description": "Color definition"
+	}, 
+	
+
+	"6. Add object": {
+		"scope": "xml",
+		"prefix": "6 relay object",
+		"body": [
+			"<link name=\"pnoz\">",
+				"\t<visual>",
+				"<origin rpy=\"1.5708 0 0\" xyz=\"0 -0.5 0\"/>",
+				"\t\t<geometry>",
+				"\t\t\t<mesh filename=\"package://pilz_tutorial/urdf/meshes/PNOZ.stl\" scale=\"0.001 0.001 0.001\"/>",
+				"\t\t</geometry>",
+				"\t\t<material name=\"yellow\"/>",
+				"\t</visual>",
+			"</link>",
+			
+			"<joint name=\"pnoz_joint\" type=\"fixed\">",
+				"\t<parent link=\"table\"/>",
+				"\t<child link=\"pnoz\"/>",
+			"</joint>",
+			"$0",
+		],
+		"description": "Add mesh object"
+	}, 
+	
+	
+  
+}

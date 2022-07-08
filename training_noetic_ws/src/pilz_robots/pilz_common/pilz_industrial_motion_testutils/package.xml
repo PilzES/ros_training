@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package>
+  <name>pilz_industrial_motion_testutils</name>
+  <version>0.7.2</version>
+  <description>Helper scripts and functionality to test industrial motion generation</description>
+
+  <maintainer email="a.gutenkunst@pilz.de">Alexander Gutenkunst</maintainer>
+  <maintainer email="c.doehn@pilz.de">Christian Doehn</maintainer>
+  <maintainer email="c.henkel@pilz.de">Christian Henkel</maintainer>
+  <maintainer email="i.martini@pilz.de">Immanuel Martini</maintainer>
+  <maintainer email="r.feistenauer@pilz.de">Richard Feistenauer</maintainer>
+
+  <license>Apache 2.0</license>
+
+  <url type="website">https://wiki.ros.org/pilz_industrial_motion_testutils</url>
+  <url type="bugtracker">https://github.com/PilzDE/pilz_common/issues</url>
+  <url type="repository">https://github.com/PilzDE/pilz_common</url>
+
+  <run_depend>moveit_commander</run_depend>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+</package>

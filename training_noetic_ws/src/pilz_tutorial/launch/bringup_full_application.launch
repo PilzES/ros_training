@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<launch>
+    <!-- Launch Robot Nodes --> 
+    
+	<include file="$(find pilz_tutorial)/launch/my_application.launch"/>
+
+    <!-- Run Robot programming node -->
+  <node name="robot_programming_node" pkg="pilz_tutorial" type="myFirstApplication.py" output="screen" respawn="true"/>
+
+    <!-- Launch HMI -->
+	<include file="$(find hmi_controls)/launch/launch_hmi.launch"/>
+  
+</launch>

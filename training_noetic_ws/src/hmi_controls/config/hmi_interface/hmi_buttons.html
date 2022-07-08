@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<script src="https://static.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
+<script src="https://static.robotwebtools.org/roslibjs/current/roslib.js"></script>
+
+<script src="./eventemitter2.min.js"></script>
+<script type="text/javascript" src="./roslib.js"></script>
+
+<!-- <script src="https://static.robotwebtools.org/roslibjs/current/roslib.js"></script> -->
+
+<script>
+  // Connecting to ROS
+  // -----------------
+  var ros = new ROSLIB.Ros();
+
+  // If there is an error on the backend, an 'error' emit will be emitted.
+  ros.on('error', function(error) {
+    document.getElementById('connecting').style.display = 'none';
+    document.getElementById('connected').style.display = 'none';
+    document.getElementById('closed').style.display = 'none';
+    document.getElementById('error').style.display = 'inline';
+    console.log(error);
+  });
+
+  // Find out exactly when we made a connection.
+  ros.on('connection', function() {
+    console.log('Connection made!');
+    document.getElementById('connecting').style.display = 'none';
+    document.getElementById('error').style.display = 'none';
+    document.getElementById('closed').style.display = 'none';
+    document.getElementById('connected').style.display = 'inline';
+  });
+
+  ros.on('close', function() {
+    console.log('Connection closed.');
+    document.getElementById('connecting').style.display = 'none';
+    document.getElementById('connected').style.display = 'none';
+    document.getElementById('closed').style.display = 'inline';
+  });
+
+  // Create a connection to the rosbridge WebSocket server.
+  ros.connect('ws://localhost:9090');
+
+  // Publishing a Topic
+  // ------------------
+
+  var robotTopic = new ROSLIB.Topic({
+    ros : ros,
+    name : '/hmi_buttons',
+    messageType : 'std_msgs/String'
+  });
+
+  //Subscribing to a Topic
+  //----------------------
+
+  // Like when publishing a topic, we first create a Topic object with details of the topic's name
+  // and message type. Note that we can call publish or subscribe on the same topic object.
+  var listener = new ROSLIB.Topic({
+    ros : ros,
+    name : '/hmi_status',
+    messageType : 'std_msgs/String'
+  });
+
+  // Then we add a callback to be called every time a message is published on this topic.
+  listener.subscribe(function(message) {
+    console.log('Received message on ' + listener.name + ': ' + message.data);
+
+    // If desired, we can unsubscribe from the topic as well.
+    document.getElementById('application-status').innerHTML = message.data;
+    //listener.unsubscribe();
+  });
+
+
+  function startbuttonPress() {
+
+    var command = new ROSLIB.Message({
+        data : "start"
+
+     });
+    robotTopic.publish(command);
+
+  }
+
+  function stopbuttonPress() {
+
+
+    var command = new ROSLIB.Message({
+        data : "stop"
+
+    });
+    robotTopic.publish(command);
+
+  }
+
+  function pausebuttonPress() {
+
+
+  var command = new ROSLIB.Message({
+      data : "pause"
+
+  });
+  robotTopic.publish(command);
+
+  }
+
+
+</script>
+<style>
+
+    body {
+
+      font-family: Roboto, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      margin:0;
+
+    }
+
+    
+    button {
+
+      margin: 20;
+      padding: 10px;
+
+      background: rgb(231, 231, 231);
+      
+      box-sizing: border-box;
+      border-radius: 15px;
+      border: 2px solid rgb(255, 255, 255);
+      margin-right: 20px;
+      transition: all 0.5s cubic-bezier(.57,0,.59,1.01);
+      -o-transition: all 0.5s cubic-bezier(.57,0,.59,1.01); /* opera */
+      -ms-transition: all 0.5s cubic-bezier(.57,0,.59,1.01); /* IE 10 */
+      -moz-transition: all 0.5s cubic-bezier(.57,0,.59,1.01); /* Firefox */
+      -webkit-transition: all 0.5s cubic-bezier(.57,0,.59,1.01); /*safari and chrome */
+    }
+
+    button p {
+
+      padding: 0px 15px;
+      font-family: Roboto, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      font-size: 30px;
+      font-weight: 700;
+      line-height: 0.2em;
+
+    }
+
+    button:hover {
+      box-shadow: 1px 13px 23px rgba(111, 111, 111, 0.15);
+      border: 2px solid #CBCBCB; 
+      /*background: rgb(255, 241, 52);*/
+      transform: translateY(-10px) scale(1.02,1.02);
+    }
+
+    button:active {
+      outline: none;
+      background:rgb(255, 241, 52);
+      transition: all 0.05s cubic-bezier(.57,0,.59,1.01);
+    }
+
+    button:focus {
+      
+      outline: 0;
+    }
+
+
+
+    button::-moz-focus-inner {
+      border: 0;
+    }
+
+    .wrapper {
+
+      margin: 50px auto;
+      max-width: 800px;
+
+    }
+
+    h1 {
+
+      font-size: 40px;
+      margin:0;
+      margin-top: 20px;
+    }
+
+    h3 {
+
+      font-size: 35px;
+      margin:0;
+    }
+
+
+    .HMIGroup {
+
+      display: grid;
+      grid-template-columns: 250px auto;
+      column-gap: 20px;
+
+      margin-top: 30px;
+      padding: 10px;
+      /*background-color: rgb(245, 245, 245);*/
+      border-radius: 10px;
+
+    }
+
+    h2 {
+
+      font-weight: 600;
+      font-size: 15px;
+      /* identical to box height, or 27px */
+      letter-spacing: 0.21em;
+      text-transform: uppercase;
+
+      color: #BCBCBC;
+      margin:0;
+      margin-bottom: 10px;
+
+    }
+
+    @media (max-width: 1000px) { /* Mobile layout */
+
+      .HMIGroup {
+
+        grid-template-columns: auto;
+        column-gap: 8px;
+
+      }
+
+      .wrapper {
+
+        margin: 50px 20px;
+
+      }
+
+      button {
+
+        margin-right: 5px;
+
+      }
+
+    }
+
+    @media (max-width: 800px) { /* Mobile layout */
+
+      .wrapper {
+
+        margin: 50px 20px;
+
+      }
+
+      button {
+
+        margin-right: 5px;
+
+      }
+
+    }
+
+</style>
+</head>
+
+<body>
+
+  <div class="wrapper">
+
+    <img src="pilz-logo.png" width="120"/>
+    <h1>Pick and Place Application</h1>
+
+    <div class="HMIGroup">
+
+      <div id="robot-image">
+
+        <img src="robot-image.png" width=230/>
+      </div>
+
+      
+      <div id="status-buttons">
+
+        <h2>application status</h2>
+        <h3 id="application-status" style="height:80px;">Unknown</h3>
+
+        <div style="margin-top: 30px">
+          <h2>controls</h2>
+          <button onclick="startbuttonPress()"> <p>Start</p> </button>
+          <button onclick="pausebuttonPress()"> <p>Pause</p>  </button>
+        </div>
+        
+        
+      </div>
+
+      <div>
+        <h2 style="margin-top: 10px;">ros connection</h2>
+        <div id="statusIndicator">
+          <p id="connecting">
+            Connecting to rosbridge...
+          </p>
+          <p id="connected" style="color:#00D600; display:none">
+            Connected
+          </p>
+          <p id="error" style="color:#FF0000; display:none">
+            Error in the backend!
+          </p>
+          <p id="closed" style="display:none">
+            Connection closed.
+          </p>
+        </div>
+      </div>
+    </div>
+    
+    
+
+  </div>
+  
+</body>
+</html>

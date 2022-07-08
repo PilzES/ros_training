@@ -1,0 +1,74 @@
+<?xml version= "1.0"?>
+
+<robot name="prbt" xmlns:xacro="http://ww.ros.org/wiki/xacro">
+
+    <!-- Create table -->
+    <link name="table">
+            <visual>
+                <origin rpy="0 0 0" xyz="0 -0.45 -0.03" />
+                <geometry>
+                    <box size="0.6 1.2 0.05" />
+                </geometry> 
+                <material name="grey">
+                    <color rgba="0.75 0.75 0.75 1" />
+                </material>
+            </visual> 
+        </link>
+
+    <!-- joint table to world-->
+    <link name="world"/>
+    <joint name="world_to_table" type="fixed">
+        <parent link="world"/>
+        <child link="table"/>
+    </joint>
+
+
+    <xacro:include filename="$(find prbt_support)/urdf/prbt_macro.xacro" />
+
+    <xacro:prbt prefix="prbt_" />
+
+    <joint name="table_joint" type="fixed" >
+        <parent link="table" />
+        <child link="prbt_base_link" />
+    </joint>
+ 
+    <link name="cube_ramp">
+        <visual>
+            <origin rpy="1.5708 0 0"    xyz="-0.10 -0.35 0" />
+            <geometry>
+                <mesh filename="package://my_application/urdf/meshes/CubeRamp.STL"
+                    scale="0.001 0.001 0.001"/>
+            </geometry>
+            <material name="grey" >
+                <color rgba="0.2 0.2 0.2 1.0"/>
+            </material>
+        </visual>
+    </link> 
+
+    <joint name="cube_ramp_joint" type="fixed">
+        <parent link="table"/>
+        <child link="cube_ramp"/>
+    </joint> 
+
+     <link name="prbt_tcp"/>
+     <link name="throw_cube"/>
+    <!-- connect the added tcp and the flange with a joint (tutorial 2)-->
+    <joint name="prbt_fixed_joint_tcp" type="fixed">
+      <origin rpy="0 0 0.785395" xyz="0 0 0.137"/>
+      <parent link="prbt_flange"/>
+      <child link="prbt_tcp"/>
+    </joint>
+    <!-- connect the added tcp and the flange with a joint (tutorial 2)-->
+    <joint name="throw_cube_joint" type="fixed">
+      <origin rpy="0 0 0.785395" xyz="0.08697 -0.409354 0.145142"/>
+      <parent link="table"/>
+      <child link="throw_cube"/>
+    </joint>
+
+    <xacro:include filename="$(find prbt_pg70_support)/urdf/pg70.urdf.xacro" />
+    <xacro:prbt_gripper gripper_name="prbt_gripper" parent="prbt_flange" />
+    <xacro:include filename="$(find prbt_support)/urdf/simple_gripper_brackets.urdf.xacro" />
+    <xacro:simple_gripper_brackets gripper_name="prbt_gripper" size_y="0.003" />
+
+</robot>
+

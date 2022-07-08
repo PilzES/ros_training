@@ -1,0 +1,22 @@
+<launch>
+    <!-- Start robot -->
+    <param name="robot_description" command="$(find xacro)/xacro '$(find my_application)/urdf/my_first_application.xacro'"/>
+
+    <include file="$(find prbt_moveit_config)/launch/moveit_planning_execution.launch">
+        <arg name="load_robot_description" value="false"/>
+        <arg name="sim" value="true"/>
+        <arg name="gripper" value="pg70"/>
+        <arg name="pipeline" value="pilz_command_planner"/>
+        <!--<arg name="sto" value="pss4000"/>-->
+        <arg name="rviz_config" value="$(find prbt_moveit_config)/launch/moveit.rviz"/>
+    </include>
+
+    <!-- Start perception -->
+    <include file="$(find my_perception)/launch/my_perception.launch" />
+
+    <!-- Camera pose -->
+    <include file="$(find my_calibration)/launch/camera_pose.launch" />
+
+</launch>
+
+

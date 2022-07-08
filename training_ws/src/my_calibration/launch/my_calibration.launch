@@ -1,0 +1,45 @@
+<launch>
+    <!-- start the realsense -->
+    <include file="$(find realsense2_camera)/launch/rs_camera.launch" >
+        <arg name="device_type" value="d415"/>
+        <arg name="filters" value="pointcloud"/>
+    </include>
+
+    <!-- start ArUco -->
+    <node name="aruco_single" pkg="aruco_ros" type="single">
+        <remap from="/camera_info" to="/camera/color/camera_info" />
+        <remap from="/image" to="/camera/color/image_raw" />
+        <param name="image_is_rectified" value="True"/>
+        <param name="marker_size"        value="0.072"/>
+        <param name="marker_id"          value="0"/>
+        <param name="reference_frame"    value=""/>
+        <param name="camera_frame"       value="camera_color_optical_frame"/>
+        <param name="marker_frame"       value="aruco_camera_marker" />
+        <param name="corner_refinement"  value="LINES" />
+    </node>
+
+    <!-- Start robot -->
+    <include file="$(find prbt_moveit_config)/launch/moveit_planning_execution.launch">
+        <arg name="load_robot_description" value="true"/>
+        <arg name="sim" value="false"/>
+        <arg name="gripper" value="pg70"/>
+        <arg name="pipeline" value="ompl"/>
+        <!--<arg name="sto" value="pss4000"/>-->
+        <arg name="rviz_config" value="$(find prbt_moveit_config)/launch/calibration.rviz"/>
+    </include>
+
+    <!-- start easy_handeye -->
+    <include file="$(find easy_handeye)/launch/calibrate.launch" >
+        <arg name="namespace_prefix" value="handeyecalibration" />
+        <arg name="eye_on_hand" value="true" />
+
+        <arg name="tracking_base_frame" value="camera_color_optical_frame" />
+        <arg name="tracking_marker_frame" value="aruco_camera_marker" />
+        <arg name="robot_base_frame" value="prbt_base_link" />
+        <arg name="robot_effector_frame" value="prbt_tool0" />
+
+        <arg name="freehand_robot_movement" value="false" />
+    </include>
+
+</launch>
+

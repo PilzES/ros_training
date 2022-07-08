@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<launch>
+    <!-- Launch Rosbridge --> 
+	<include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch"/>
+
+    <!-- Start local server (Warning: tutorial and testing only) -->
+  	<node name="start_server" pkg="hmi_controls" type="start_server.sh" output="screen" />
+    
+    <!-- Start Firefox -->
+  	<node name="start_firefox" pkg="hmi_controls" type="start_firefox.sh" output="screen" />
+  
+</launch>

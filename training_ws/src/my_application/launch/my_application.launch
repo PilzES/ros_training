@@ -1,0 +1,13 @@
+<?xml version= "1.0"?>
+<launch>
+
+    <param name="robot_description" command="$(find xacro)/xacro '$(find my_application)/urdf/my_first_application.xacro'"/>
+
+    <include file="$(find prbt_moveit_config)/launch/moveit_planning_execution.launch">
+        <arg name="load_robot_description" value="false"/>
+        <arg name="sim" value="true"/>
+        <arg name="gripper" value="pg70"/>
+        <arg name="pipeline" value="pilz_command_planner"/>
+        <!--<arg name="sto" value="pss4000"/>-->
+     </include>
+</launch>

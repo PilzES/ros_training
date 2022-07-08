@@ -1,0 +1,5 @@
+<launch>
+
+  <node pkg="tf" type="static_transform_publisher" name="calibration_manual" args="-0.0578926538987, -0.0541973537272, 0.0737148056776, 0.373491568253, -0.924759462511, 0.0135210779555, 0.0717019204171 prbt_tool0 camera_link 100"/>
+
+</launch>

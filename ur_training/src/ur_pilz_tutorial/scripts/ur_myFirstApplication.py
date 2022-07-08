@@ -31,24 +31,14 @@ def start_program():
     #hmi_publisher.publish("Starting Program")
     # important positions
     start_pos = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]   # joint values
-    pick_pose = [1.74, -1.64, -1.74, -1.31, 1.59, 3.078]
-    work_station_pose=[2.89, -1.07, 0.93, -2.38, -1.42, 3.078]
-    place_pose=[1.56, -1.53, 1.93, -1.97, -1.55, 3.078]
 
-    #pick_pose = Pose(position=Point (0, -0.525, 0.25), orientation=from_euler(0, math.radians(180), math.radians(-45))) # cartesian coordinates
-    #work_station_pose = Pose(position=Point(-0.5, 0.1, 0.2) , orientation=from_euler(0, math.radians(-135), math.radians(90)))  # cartesian coordinates
-    #place_pose = Pose(position=Point(-0.1,0.525,0.25) , orientation=from_euler(0, math.radians(180),  math.radians(90))) # cartesian coordinates
-
-    #pick_pose = Pose(position=Point(0, -0.525, 0.25), orientation=from_euler(0, math.radians(180), math.radians(180))) # cartesian coordinates
-    #work_station_pose = Pose(position=Point(-0.5, 0.1, 0.2) , orientation=from_euler(0, math.radians(-135), math.radians(180)))  # cartesian coordinates
-    #place_pose = Pose(position=Point(-0.1,0.4,0.25) , orientation=from_euler(0, math.radians(180),  math.radians(135))) # cartesian coordinates
+    pick_pose = Pose(position=Point(0, -0.525, 0.25), orientation=from_euler(0, math.radians(180), math.radians(180))) # cartesian coordinates
+    work_station_pose = Pose(position=Point(-0.5, 0.1, 0.2) , orientation=from_euler(0, math.radians(-135), math.radians(180)))  # cartesian coordinates
+    place_pose = Pose(position=Point(-0.1,0.4,0.25) , orientation=from_euler(0, math.radians(180),  math.radians(135))) # cartesian coordinates
 
     #pick_pose = Pose(position=Point(0, -0.525, 0.25), orientation=Quaternion(1, 6.5492e-11, -4.9918e-8, 2.3079e-7))
-    #pick_pose = Pose(position=Point(0, -0.525, 0.25), orientation=Quaternion(1, 0, 0, 0))
     #work_station_pose = Pose(position=Point(-0.5, 0.1, 0.2) , orientation=Quaternion(0.92388, 9.6654e-9, -0.38268, -1.9424e-8))
-    #work_station_pose = Pose(position=Point(-0.5, 0.1, 0.2) , orientation=Quaternion(0.92388, 0, -0.38268, 0))
     #place_pose = Pose(position=Point(-0.1,0.4,0.25) , orientation=Quaternion(0.92388, 0.38268, -3.3112e-8, 1.432e-8))
-    #place_pose = Pose(position=Point(-0.1,0.4,0.25) , orientation=Quaternion(0.92388, 0.38268, 0, 0))
   
     # move to start point with joint values to avoid random trajectory
     # r.move(Ptp(goal=goal_pos, vel_scale=__ROBOT_VELOCITY__))

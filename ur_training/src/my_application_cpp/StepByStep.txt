@@ -1,0 +1,102 @@
+1) Import interfaces:
+
+    #include <ros/ros.h>
+    #include <moveit/move_group_interface/move_group_interface.h>
+    #include <moveit/planning_scene_interface/planning_scene_interface.h>
+
+2) Prepare the main function
+
+int main(int argc, char** argv)
+{
+  ros::init(argc, argv, "move_group_interface_tutorial");
+  ros::NodeHandle node_handle;
+  ros::AsyncSpinner spinner(1);
+  spinner.start();
+  return 0;
+  
+}
+
+3) Explain spin (http://wiki.ros.org/roscpp/Overview/Callbacks%20and%20Spinning)
+
+    ros::spin -> at the end of main. Tells the system to process callbacks until node is shutdown -> Ctrl+C or ros::shutdown
+
+        ros::init(argc, argv, "my_node");
+        ros::NodeHandle nh;
+        ros::Subscriber sub = nh.subscribe(...);
+        ...
+        ros::spin();
+
+
+
+    ros::spinOnce -> we choose the moment where we execute the callbacks. Normally used inside a while loop
+
+        ros::Rate r(10); // 10 hz
+        while (should_continue)
+            {
+            ... do some work, publish some messages, etc. ...
+            ros::spinOnce();
+            r.sleep();
+            }
+
+    
+    ros::AsyncSpinner -> it has start() and stop() calls. 
+
+        ros::AsyncSpinner spinner(4); // Use 4 threads
+        spinner.start();
+        ros::waitForShutdown();
+
+
+
+4) Edit CMake to compile this basic part 
+
+    find_package(...)
+        moveit_ros_planning_interface
+        moveit_ros_move_group
+    
+    
+    add_executable(my_application_cpp src/my_application_cpp.cpp)
+    add_dependencies(my_application_cpp ${my_application_cppEXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+    target_link_libraries(my_application_cpp ${catkin_LIBRARIES} ${Boost_LIBRARIES})
+
+
+
+
+5) Declare Planning group Create manipulator variable
+
+    static const std::string PLANNING_GROUP = "manipulator";
+
+
+6) Instantiate move_group_interface and planning_interface
+
+    moveit::planning_interface::MoveGroupInterface move_group_interface(PLANNING_GROUP);
+    moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
+
+
+7) Prepare a pose move_group_interface_tutorial
+
+  geometry_msgs::Pose target_pose1;
+  target_pose1.orientation.w = 1.0;
+  target_pose1.position.x = 0.28;
+  target_pose1.position.y = -0.2;
+  target_pose1.position.z = 0.5;
+  move_group_interface.setPoseTarget(target_pose1);
+
+  Note!!!!: I may need to include geometry_msgs
+
+
+8) Instantiate a plan variable
+
+  moveit::planning_interface::MoveGroupInterface::Plan my_plan;
+
+
+9) Set joint velocity and acceleration limits, and plannint time
+
+  move_group_interface.setMaxVelocityScalingFactor(0.05);
+  move_group_interface.setMaxAccelerationScalingFactor(0.05);
+
+  move_group_interface.setPlanningTime(5.0);
+
+
+10) Add gripper planning_group
+
+    
